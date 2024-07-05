@@ -46,7 +46,6 @@ type SensorData struct {
 	WlanA                 string        `json:"wlanA"`
 	WlanB                 string        `json:"wlanB"`
 	LastWlan              string        `json:"last_wlan"`
-	Wlan1Used             time.Time     `json:"wlan_1_used"`
 	UseAlertInterval      int           `json:"use_alert_interval"`
 	UseOffset             int           `json:"use_offset"`
 	BatteryPct            int           `json:"battery_pct"`
@@ -87,7 +86,6 @@ func (r *TempstickResponse) UnmarshalJSON(data []byte) error {
 			SensorData
 			LastCheckin string `json:"last_checkin"`
 			NextCheckin string `json:"next_checkin"`
-			Wlan1Used   string `json:"wlan_1_used"`
 		}
 		if err := json.Unmarshal(aux.Data, &sensorData); err != nil {
 			return err
@@ -100,13 +98,8 @@ func (r *TempstickResponse) UnmarshalJSON(data []byte) error {
 		if err != nil {
 			return err
 		}
-		parsedWlan1Used, err := time.Parse("2006-01-02 15:04:05", removeTrailingZ(sensorData.Wlan1Used))
-		if err != nil {
-			return err
-		}
 		sensorData.SensorData.LastCheckin = parsedLastCheckin
 		sensorData.SensorData.NextCheckin = parsedNextCheckin
-		sensorData.SensorData.Wlan1Used = parsedWlan1Used
 		r.Data = &sensorData.SensorData
 	default:
 		r.Data = aux.Data
