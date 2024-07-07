@@ -83,10 +83,10 @@ func scrapeHandler(w http.ResponseWriter, r *http.Request) {
 	// Create gauges and set values
 	collector := &TempstickCollector{
 		metrics: []*tempstickMetric{
-			newTempstickMetric("tempstick_temp", "Temperature in degrees Celsius", labels, sensorData.LastTemp, sensorData.LastCheckin),
-			newTempstickMetric("tempstick_humidity", "Humidity in percent", labels, sensorData.LastHumidity, sensorData.LastCheckin),
-			newTempstickMetric("tempstick_voltage", "Battery voltage", labels, sensorData.LastVoltage, sensorData.LastCheckin),
-			newTempstickMetric("tempstick_rssi", "RSSI in dBm", labels, float64(sensorData.RSSI), sensorData.LastCheckin),
+			newTempstickMetric("tempstick_temp", "Temperature in degrees Celsius", labels, sensorData.LastTemp, sensorData.LastCheckin.Time),
+			newTempstickMetric("tempstick_humidity", "Humidity in percent", labels, sensorData.LastHumidity, sensorData.LastCheckin.Time),
+			newTempstickMetric("tempstick_voltage", "Battery voltage", labels, sensorData.LastVoltage, sensorData.LastCheckin.Time),
+			newTempstickMetric("tempstick_rssi", "RSSI in dBm", labels, sensorData.RSSI, sensorData.LastCheckin.Time),
 		},
 	}
 
